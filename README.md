@@ -1,7 +1,3 @@
-<div align="center">
-  <img height="150" src="https://media1.tenor.com/m/sLIuJuqBfSYAAAAd/luna-cat-crunchy-cat.gif"  />
-</div>
-
 ###
 
 <div align="center">
