@@ -1,4 +1,4 @@
-<h2 align="left">Hi 👋! My name is Arthur Gael and I'm a Back-end Dev, from Pernambuco, Brazil</h2>
+<h2 align="left">Hi 👋! My name is Arthur Gael and I'm a Front-end Dev, from Pernambuco, Brazil</h2>
 
 ###
 
