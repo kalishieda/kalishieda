@@ -2,9 +2,9 @@ name: Generate arcade animation
 
 on:
   schedule:
-    - cron: "0 */12 * * *" # Executa a cada 12 horas no minuto 0
+    - cron: "0 */12 * * *"
 
-  workflow_dispatch: # Permite que você jogue manualmente nas Actions
+  workflow_dispatch:
 
   push:
     branches:
@@ -13,25 +13,35 @@ on:
 jobs:
   generate:
     permissions:
-      contents: write # Permissão essencial para criar a branch pacman-output
+      contents: write
     runs-on: ubuntu-latest
     timeout-minutes: 20
 
     steps:
-      # Passo essencial que estava faltando: baixar o código do repositório
       - name: Checkout Repository
         uses: actions/checkout@v4
+
+      # Criamos uma pasta temporária para as imagens não se misturarem com a raiz
+      - name: Create output directory
+        run: mkdir -p pacman-output-dir
 
       - name: generate pacman-contribution-graph.svg
         uses: abozanona/pacman-contribution-graph@main
         with:
           github_user_name: ${{ github.repository_owner }}
           games: 'pacman'
+          # Remova ou comente a linha abaixo se a action não aceitar o output_dir, 
+          # mas geralmente precisamos mover o arquivo gerado para lá:
+
+      # Move os arquivos gerados do Pacman para a pasta isolada
+      - name: Move SVGs to output directory
+        run: |
+          mv pacman-contribution-graph*.svg pacman-output-dir/ || true
 
       - name: push pacman-contribution-graph.svg to the output branch
         uses: crazy-max/ghaction-github-pages@v3.1.0
         with:
           target_branch: pacman-output
-          build_dir: . # MUDOU AQUI: O ponto indica que os arquivos estão na raiz
+          build_dir: pacman-output-dir # MUDOU AQUI: Ele vai ler apenas a pasta isolada
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
